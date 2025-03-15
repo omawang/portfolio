@@ -1,32 +1,13 @@
+import { Hero } from "@/components/hero";
 import { experiences } from "@/constants/experiences";
 import { BuildingIcon } from "lucide-react";
-import Image from "next/image";
 
-export default function Home() {
-  // font-[family-name:var(--font-geist-sans)]
+const HomePage = () => {
   return (
     <main className="mt-8 md:mt-16 w-full flex flex-col gap-16">
-      <section className="flex flex-col items-center md:flex-row-reverse md:justify-between gap-8 md:gap-16">
-        <Image
-          alt="profile"
-          src="https://avatars.githubusercontent.com/u/47683174?v=4"
-          width={200}
-          height={200}
-          className="rounded-full"
-        />
+      <Hero />
 
-        <div className="flex flex-1 flex-col md:justify-center gap-4">
-          <h2 className="font-bold text-3xl">Hi, I&apos;m Awang</h2>
-          <p className="font-light">
-            I&apos;m a passionate and fast-learning Full-Stack Developer with
-            expertise in Backend, Frontend, and Mobile App development. I love
-            building scalable and efficient solutions. Let&apos;s connect and build
-            something amazing!
-          </p>
-        </div>
-      </section>
-
-      <section className="">
+      <section>
         <h2 className="font-bold text-3xl">Working Experiences</h2>
         <div className="mt-8 flex flex-col gap-8">
           {experiences.map((exp) => (
@@ -56,4 +37,6 @@ export default function Home() {
       </section>
     </main>
   );
-}
+};
+
+export default HomePage;
