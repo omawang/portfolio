@@ -4,7 +4,7 @@ import { BuildingIcon } from "lucide-react";
 
 const HomePage = () => {
   return (
-    <main className="mt-8 md:mt-16 w-full flex flex-col gap-16">
+    <main className="mt-8 md:mt-16 w-full flex flex-col gap-16 fadeInUp">
       <Hero />
 
       <section>

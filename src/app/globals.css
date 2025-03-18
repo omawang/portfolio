@@ -113,6 +113,11 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+.fadeInUp {
+	animation: fadeInUp;
+	animation-duration: 0.5s;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
