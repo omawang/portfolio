@@ -14,20 +14,12 @@ export const Navbar = () => {
         </Link>
       </div>
 
-      <ul className="flex flex-row items-center gap-2 text-sm">
-        {/* <li>
-          <Link href="/stack" passHref>
-            <Button
-              variant="ghost"
-              className={cn(
-                "cursor-pointer hover:underline underline-offset-4",
-                pathname === "/stack" && "underline underline-offset-4"
-              )}
-            >
-              Stack
-            </Button>
+      <ul className="flex flex-row items-center gap-4 text-sm">
+        <li>
+          <Link href="/blog" className="hover:underline underline-offset-4">
+            Blog
           </Link>
-        </li> */}
+        </li>
         <li>
           <ModeToggle />
         </li>

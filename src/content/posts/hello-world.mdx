@@ -1,0 +1,126 @@
+---
+title: "Hello World - Welcome to My Blog"
+description: "This is my first blog post showcasing MDX features, code highlighting, and various content types."
+date: "2024-01-15"
+tags: ["welcome", "mdx", "blog", "web-development"]
+draft: false
+---
+
+# Welcome to My Blog!
+
+Hello and welcome to my blog! This is my first post, and I'm excited to share my thoughts on web development, technology, and programming.
+
+## What You'll Find Here
+
+In this blog, I'll be covering:
+
+- **Web Development**: Tips, tricks, and best practices
+- **JavaScript & TypeScript**: Deep dives into modern JS/TS features
+- **React & Next.js**: Building modern web applications
+- **Developer Tools**: Reviews and tutorials on useful tools
+
+## Code Examples
+
+Let's test our syntax highlighting with some TypeScript code:
+
+```typescript
+interface BlogPost {
+  title: string;
+  description: string;
+  date: string;
+  tags: string[];
+  draft: boolean;
+}
+
+const createPost = (data: BlogPost): BlogPost => {
+  return {
+    ...data,
+    date: new Date().toISOString(),
+  };
+};
+
+// Example usage
+const myPost = createPost({
+  title: "My Awesome Post",
+  description: "This is a great post about coding",
+  date: "2024-01-15",
+  tags: ["typescript", "programming"],
+  draft: false,
+});
+
+console.log(myPost);
+```
+
+And here's some React JSX:
+
+```jsx
+import React from 'react';
+
+const BlogCard = ({ title, description, date, tags }) => {
+  return (
+    <article className="blog-card">
+      <h2>{title}</h2>
+      <p className="description">{description}</p>
+      <time>{new Date(date).toLocaleDateString()}</time>
+      <div className="tags">
+        {tags.map(tag => (
+          <span key={tag} className="tag">#{tag}</span>
+        ))}
+      </div>
+    </article>
+  );
+};
+
+export default BlogCard;
+```
+
+## Tables
+
+Here's a comparison of different JavaScript frameworks:
+
+| Framework | Type | Learning Curve | Performance | Ecosystem |
+|-----------|------|----------------|-------------|----------|
+| React | Library | Medium | High | Excellent |
+| Vue | Framework | Easy | High | Good |
+| Angular | Framework | Hard | High | Excellent |
+| Svelte | Compiler | Easy | Very High | Growing |
+
+## Lists and More
+
+### My Favorite Development Tools:
+
+1. **VS Code** - The best code editor
+2. **Git** - Version control system
+3. **Chrome DevTools** - Debugging made easy
+4. **Figma** - Design and prototyping
+
+### Technologies I'm Currently Learning:
+
+- WebAssembly (WASM)
+- Rust programming language
+- GraphQL and Apollo
+- Docker and Kubernetes
+
+## Blockquotes
+
+> "The best way to learn programming is by writing programs." - Dennis Ritchie
+
+This quote perfectly captures the essence of learning to code. Practice makes perfect!
+
+## Inline Code
+
+You can use inline code like `const greeting = "Hello World!"` within your paragraphs to highlight specific terms or code snippets.
+
+## Links
+
+Check out some useful resources:
+
+- [MDN Web Docs](https://developer.mozilla.org/) - Comprehensive web development documentation
+- [React Documentation](https://react.dev/) - Official React docs
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features
+
+---
+
+That's all for my first post! I hope you enjoyed this showcase of MDX features. Stay tuned for more content about web development and programming.
+
+Happy coding! 🚀

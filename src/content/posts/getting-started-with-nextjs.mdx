@@ -1,0 +1,281 @@
+---
+title: "Getting Started with Next.js 15: A Complete Guide"
+description:
+    "Learn how to build modern web applications with Next.js 15, including App Router, Server Components, and best practices."
+date: "2024-01-20"
+tags: ["nextjs", "react", "tutorial", "web-development"]
+draft: false,
+---
+
+# Getting Started with Next.js 15
+
+Next.js has revolutionized the way we build React applications. With the release of Next.js 15, we get even more powerful features that make building full-stack web applications easier than ever.
+
+## What's New in Next.js 15?
+
+Next.js 15 introduces several exciting features:
+
+- **Improved App Router**: Better performance and developer experience
+- **Enhanced Server Components**: More efficient server-side rendering
+- **Turbopack**: Faster bundling and hot reloading
+- **Better TypeScript Support**: Improved type safety and IntelliSense
+
+## Setting Up Your First Next.js Project
+
+Let's create a new Next.js project from scratch:
+
+```bash
+# Create a new Next.js app
+npx create-next-app@latest my-nextjs-app
+
+# Navigate to the project directory
+cd my-nextjs-app
+
+# Start the development server
+npm run dev
+```
+
+## Project Structure
+
+Here's what a typical Next.js 15 project structure looks like:
+
+```
+my-nextjs-app/
+├── src/
+│   ├── app/
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   └── loading.tsx
+│   ├── components/
+│   └── lib/
+├── public/
+├── next.config.js
+├── package.json
+└── tsconfig.json
+```
+
+## Creating Your First Page
+
+With the App Router, creating pages is straightforward. Here's a simple example:
+
+```tsx showLineNumbers {5-8}
+// src/app/about/page.tsx
+export default function AboutPage() {
+  return (
+    <div className="container mx-auto px-4 py-8">
+      <h1 className="text-4xl font-bold mb-4">About Us</h1>
+      <p className="text-lg text-gray-600">
+        Welcome to our amazing Next.js application!
+      </p>
+    </div>
+  );
+}
+
+// Generate metadata for SEO
+export const metadata = {
+  title: 'About Us',
+  description: 'Learn more about our company and mission.',
+};
+```
+
+## Server Components vs Client Components
+
+One of the key concepts in Next.js 15 is understanding when to use Server Components vs Client Components:
+
+### Server Components (Default)
+
+```tsx
+// This runs on the server
+async function ServerComponent() {
+  const data = await fetch('https://api.example.com/data');
+  const posts = await data.json();
+
+  return (
+    <div>
+      <h2>Latest Posts</h2>
+      {posts.map(post => (
+        <article key={post.id}>
+          <h3>{post.title}</h3>
+          <p>{post.excerpt}</p>
+        </article>
+      ))}
+    </div>
+  );
+}
+```
+
+### Client Components
+
+```tsx
+'use client';
+
+import { useState } from 'react';
+
+function ClientComponent() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>
+        Increment
+      </button>
+    </div>
+  );
+}
+```
+
+## Routing and Navigation
+
+Next.js 15 uses file-based routing. Here's how different route types work:
+
+| Route Type | File Path | URL |
+|------------|-----------|-----|
+| Static | `app/about/page.tsx` | `/about` |
+| Dynamic | `app/blog/[slug]/page.tsx` | `/blog/hello-world` |
+| Catch-all | `app/docs/[...slug]/page.tsx` | `/docs/guide/getting-started` |
+| Optional Catch-all | `app/shop/[[...slug]]/page.tsx` | `/shop` or `/shop/category/item` |
+
+## Data Fetching
+
+Next.js 15 makes data fetching simple with async Server Components:
+
+```tsx
+// Fetch data at build time (Static Generation)
+async function StaticPage() {
+  const res = await fetch('https://api.example.com/posts', {
+    cache: 'force-cache' // This is the default
+  });
+  const posts = await res.json();
+
+  return <PostList posts={posts} />;
+}
+
+// Fetch data on each request (Server-side Rendering)
+async function DynamicPage() {
+  const res = await fetch('https://api.example.com/posts', {
+    cache: 'no-store'
+  });
+  const posts = await res.json();
+
+  return <PostList posts={posts} />;
+}
+
+// Revalidate data every 60 seconds (Incremental Static Regeneration)
+async function ISRPage() {
+  const res = await fetch('https://api.example.com/posts', {
+    next: { revalidate: 60 }
+  });
+  const posts = await res.json();
+
+  return <PostList posts={posts} />;
+}
+```
+
+## Best Practices
+
+### 1. Use TypeScript
+
+Always use TypeScript for better developer experience and type safety:
+
+```tsx
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+  publishedAt: string;
+}
+
+interface PostListProps {
+  posts: Post[];
+}
+
+function PostList({ posts }: PostListProps) {
+  return (
+    <div>
+      {posts.map(post => (
+        <article key={post.id}>
+          <h2>{post.title}</h2>
+          <time>{new Date(post.publishedAt).toLocaleDateString()}</time>
+        </article>
+      ))}
+    </div>
+  );
+}
+```
+
+### 2. Optimize Images
+
+Use the Next.js Image component for automatic optimization:
+
+```tsx
+import Image from 'next/image';
+
+function Hero() {
+  return (
+    <div>
+      <Image
+        src="/hero-image.jpg"
+        alt="Hero image"
+        width={800}
+        height={400}
+        priority // Load this image first
+      />
+    </div>
+  );
+}
+```
+
+### 3. Environment Variables
+
+Use environment variables for configuration:
+
+```bash
+# .env.local
+DATABASE_URL=your_database_url
+API_KEY=your_api_key
+NEXTAUTH_SECRET=your_secret
+```
+
+```tsx
+// Access in Server Components
+const apiKey = process.env.API_KEY;
+
+// Access in Client Components (must be prefixed with NEXT_PUBLIC_)
+const publicApiUrl = process.env.NEXT_PUBLIC_API_URL;
+```
+
+## Deployment
+
+Deploying to Vercel is the easiest option:
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy your app
+vercel
+```
+
+For other platforms, build your app first:
+
+```bash
+npm run build
+npm start
+```
+
+## Conclusion
+
+Next.js 15 provides an excellent foundation for building modern web applications. With its powerful features like:
+
+- Server Components for better performance
+- File-based routing for intuitive navigation
+- Built-in optimization for images and fonts
+- Excellent TypeScript support
+
+You're well-equipped to build fast, scalable web applications.
+
+> **Pro Tip**: Start with Server Components by default and only use Client Components when you need interactivity or browser-only APIs.
+
+Happy coding with Next.js 15! 🚀

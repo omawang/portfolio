@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -114,8 +115,8 @@
 }
 
 .fadeInUp {
-	animation: fadeInUp;
-	animation-duration: 0.5s;
+  animation: fadeInUp;
+  animation-duration: 0.5s;
 }
 
 @layer base {
@@ -124,5 +125,96 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* === Shiki (Dracula) + Tailwind Typography cooperation === */
+.prose pre[data-theme] {
+  /* background & base color from Shiki vars */
+  background-color: var(--shiki-dark-bg) !important;
+  color: var(--shiki-dark) !important;
+
+  /* spacing & layout */
+  position: relative;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  padding-right: 3rem; /* space for copy button */
+  overflow-x: auto;
+  margin: 1.25rem 0;
+}
+
+/* Light mode fallback */
+@media (prefers-color-scheme: light) {
+  .prose pre[data-theme] {
+    background-color: var(--shiki-light-bg) !important;
+    color: var(--shiki-light) !important;
+  }
+}
+
+/* Ensure inline code inside themed blocks uses Shiki fg */
+.prose code[data-theme] {
+  color: var(--shiki-fg) !important;
+}
+
+/* pretty-code fragment wrapper */
+.prose [data-rehype-pretty-code-fragment] {
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+/* Token colors from Shiki's per-span CSS vars */
+.prose pre code span {
+  color: var(--shiki-dark) !important;
+  font-style: var(--shiki-dark-font-style, normal);
+  font-weight: var(--shiki-dark-font-weight, normal);
+  text-decoration: var(--shiki-dark-text-decoration, none);
+}
+
+@media (prefers-color-scheme: light) {
+  .prose pre code span {
+    color: var(--shiki-light) !important;
+    font-style: var(--shiki-light-font-style, normal);
+    font-weight: var(--shiki-light-font-weight, normal);
+    text-decoration: var(--shiki-light-text-decoration, none);
+  }
+}
+
+/* === Line numbers (always on for fenced blocks) ===
+   pretty-code wraps each line as: <span data-line>...</span>
+   We draw a gutter using CSS counters. */
+.prose pre code {
+  counter-reset: line;
+  display: grid; /* pretty-code also uses grid; this keeps it consistent */
+}
+
+.prose pre code [data-line] {
+  counter-increment: line;
+  display: block;
+  padding-left: 3.25rem; /* space for gutter numbers */
+  position: relative;
+}
+
+.prose pre code [data-line]::before {
+  content: counter(line);
+  position: absolute;
+  left: 0.75rem;
+  width: 1.5rem;
+  text-align: right;
+  opacity: 0.6;
+  font-variant-numeric: tabular-nums;
+  color: var(--shiki-fg); /* readable in both themes */
+}
+
+/* === Highlighted lines ===
+   Works with either class="highlighted" or data-highlighted attribute */
+.prose pre code [data-highlighted],
+.prose pre code .highlighted {
+  background-color: color-mix(in oklab, var(--shiki-dark-bg) 55%, white 45%);
+}
+
+@media (prefers-color-scheme: light) {
+  .prose pre code [data-highlighted],
+  .prose pre code .highlighted {
+    background-color: color-mix(in oklab, var(--shiki-light-bg) 60%, black 10%);
   }
 }
