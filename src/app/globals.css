@@ -118,6 +118,42 @@
 	animation-duration: 0.5s;
 }
 
+/* --- rehype-pretty-code & prose code block styles --- */
+.prose pre {
+  @apply bg-muted text-[0.95em] rounded-lg p-4 overflow-x-auto my-4;
+}
+.prose code {
+  @apply font-mono text-sm px-1 py-0.5 rounded bg-muted;
+}
+.prose pre code {
+  @apply bg-transparent p-0 text-inherit;
+}
+.prose .line {
+  display: block;
+  min-height: 1.25em;
+}
+.prose .highlighted {
+  background-color: rgba(255, 255, 0, 0.1);
+  display: block;
+  margin: 0 -1em;
+  padding: 0 1em;
+}
+/* rehype-pretty-code token colors (override as needed) */
+:root {
+  --shiki-token-constant: #79c0ff;
+  --shiki-token-string: #a5d6ff;
+  --shiki-token-comment: #8b949e;
+  --shiki-token-keyword: #ff7b72;
+  --shiki-token-function: #d2a8ff;
+  --shiki-token-parameter: #ffa657;
+}
+.dark .prose pre {
+  @apply bg-[#161b22] text-[#c9d1d9];
+}
+.dark .prose code {
+  @apply bg-[#23272e] text-[#c9d1d9];
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

@@ -1,5 +1,5 @@
-import { Hero } from "@/components/hero";
 import { experiences } from "@/constants/experiences";
+import { Hero } from "@/features/home/components/hero";
 import { BuildingIcon } from "lucide-react";
 
 const HomePage = () => {

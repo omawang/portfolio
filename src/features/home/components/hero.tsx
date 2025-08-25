@@ -1,7 +1,6 @@
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-import { Button } from "./ui/button";
 
 export const Hero = () => {
   return (
@@ -24,22 +23,33 @@ export const Hero = () => {
         </p>
 
         <div className="flex flex-row gap-2">
+          <Link href="/notes" passHref target="_blank">
+            <Button variant="outline" className="cursor-pointer">
+              Notes
+            </Button>
+          </Link>
           <Link href="https://github.com/omawang" passHref target="_blank">
-            <Button variant="outline">Github</Button>
+            <Button variant="outline" className="cursor-pointer">
+              Github
+            </Button>
           </Link>
           <Link
             href="https://www.linkedin.com/in/kurniawan100/"
             passHref
             target="_blank"
           >
-            <Button variant="outline">Linkedin</Button>
+            <Button variant="outline" className="cursor-pointer">
+              Linkedin
+            </Button>
           </Link>
           <Link
             href={`${process.env.NEXT_PUBLIC_BASE_URL}/kurniawan-cv.pdf`}
             passHref
             target="_blank"
           >
-            <Button variant="outline">CV</Button>
+            <Button variant="outline" className="cursor-pointer">
+              CV
+            </Button>
           </Link>
         </div>
       </div>

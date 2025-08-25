@@ -1,0 +1,117 @@
+# Cursor Rules
+
+## Instructions
+
+- Record fixes for mistakes or corrections to avoid repetition in the `Lessons` section.
+- Organize thoughts and plan steps before starting a task in the `Scratchpad` section.
+- Clear old tasks if necessary.
+- Use todo markers for progress tracking:
+  - `[x]` Completed tasks
+  - `[ ]` Pending tasks
+- Update Scratchpad after completing subtasks.
+- Reflect and plan after milestones for better task management.
+- Always refer to Scratchpad before planning the next step.
+
+## Lessons
+
+1. Use `npx shadcn@latest add [component]` instead of `npx shadcn-ui@latest add [component]` when installing Shadcn UI components.
+2. In Next.js 14+, page props params must be typed as a Promise. Example:
+   ```typescript
+   type tParams = Promise<{ id: string }>
+   interface PageProps {
+     params: tParams
+   }
+   ```
+   Then await the params in the component:
+   ```typescript
+   export default async function Page(props: PageProps) {
+     const { id } = await props.params
+   }
+   ```
+3. When importing `useRouter` from 'next/navigation', the component must be marked as a client component using the `'use client'` directive at the top of the file, as this hook only works on the client side.
+
+## Scratchpad
+
+### Phase 0 — Initialize (npm)
+- [x] Create app:
+  - [x] `npm create next-app@latest my-blog -- --ts --eslint --app --src-dir --tailwind`
+  - [x] `cd my-blog && git init`
+- [ ] Install UI + MDX + highlight deps:
+  - [x] `npm i lucide-react`
+  - [x] `npm i @next/mdx remark-gfm rehype-slug rehype-autolink-headings rehype-pretty-code shiki`
+- [x] Shadcn setup:
+  - [x] `npx shadcn@latest init -d`
+  - [x] `npx shadcn@latest add button card badge`
+- [x] Run dev: `npm run dev` (confirm Tailwind works)
+
+---
+
+### Phase 1 — MDX config
+- [x] `next.config.mjs`:
+  - [x] Enable `@next/mdx` with `remark-gfm`, `rehype-slug`, `rehype-autolink-headings`, `rehype-pretty-code`
+  - [x] Set Shiki theme `{ dark: 'github-dark', light: 'github-light' }`
+  - [x] Add `pageExtensions: ['ts','tsx','md','mdx']`
+- [x] Global CSS: include minimal styles for `rehype-pretty-code` tokens (pre/code spacing, inline code, etc.)
+
+---
+
+### Phase 2 — Content structure (no parsers)
+- [ ] Create `src/content/posts/` folder
+- [ ] Each post is a `.mdx` file that **exports a `meta` object** (no YAML/frontmatter plugin needed):
+  - [ ] Example:
+    ```mdx
+    export const meta = {
+      title: 'Hello World',
+      date: '2025-08-25',
+      description: 'My first post with MDX + Shiki.',
+      tags: ['intro','nextjs'],
+      draft: false
+    }
+
+    # Hello World
+
+    ```ts
+    export const greet = (name: string) => `Hello, ${name}!`
+    ```
+    ```
+- [ ] Create a tiny registry `src/content/posts/index.ts` that imports posts and exports an array:
+  ```ts
+  import * as HelloWorld from './hello-world.mdx';
+
+  export type PostModule = {
+    meta: {
+      title: string;
+      date: string; // ISO string
+      description?: string;
+      tags?: string[];
+      draft?: boolean;
+    };
+    default: React.ComponentType;
+    slug: string;
+  };
+
+  export const posts: PostModule[] = [
+    { ...(HelloWorld as any), slug: 'hello-world' },
+    // add more posts here
+  ].filter(p => process.env.NODE_ENV === 'production' ? !p.meta.draft : true)
+   .sort((a,b) => (a.meta.date < b.meta.date ? 1 : -1));
+
+---
+
+### Phase 3 — Routes (App Router)
+
+- [ ] List page /app/blog/page.tsx:
+  - [ ] Import { posts } and render cards (Shadcn Card) with title, date, desc, tags.
+  - [ ] Link to /blog/[slug].
+
+- [ ] Post page /app/blog/[slug]/page.tsx:
+  - [ ] generateStaticParams() → posts.map(p => ({ slug: p.slug }))
+  - [ ] Find post by slug from the registry and render the MDX component inside a Prose wrapper.
+- [ ] SEO: use generateMetadata to read meta and set title/description/og.
+
+---
+
+- [ ] Phase 4 — MDX components + code highlight
+  - [ ] Create src/components/mdx/Prose.tsx with Tailwind prose classes.
+  - [ ] Optional: map MDX elements (links, blockquotes, tables) to styled components.
+  - [ ] Add a small CopyButton (Lucide Clipboard) for code blocks (client component).
