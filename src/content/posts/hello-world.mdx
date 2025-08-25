@@ -2,12 +2,49 @@ export const meta = {
   title: 'Hello World',
   date: '2025-08-25',
   description: 'My first post with MDX + Shiki.',
-  tags: ['intro','nextjs'],
+  tags: ['intro', 'nextjs'],
   draft: false
 }
 
 # Hello World
 
+Welcome to my first blog post using **MDX** and **Next.js**!
+
+## What is MDX?
+
+MDX is a format that lets you write JSX in your markdown documents. You can import components, such as interactive charts or alerts, and embed them within your content.
+
+## Code Example
+
+Here's a simple TypeScript function:
+
 ```ts
-export const greet = (name: string) => `Hello, ${name}!`
+export const greet = (name: string): string => {
+  return `Hello, ${name}!`;
+};
+
+// Call the function
+const message = greet('World');
+console.log(message); // Outputs: Hello, World!
 ```
+
+## Lists and Tables
+
+Here's a list of features:
+
+- **Markdown** syntax
+- **JSX** components
+- **Code highlighting** with Shiki
+- **Responsive** design
+
+And a simple table:
+
+| Feature | Description |
+| ------- | ----------- |
+| MDX | Markdown + JSX |
+| Next.js | React framework |
+| Shiki | Syntax highlighter |
+
+## Conclusion
+
+This is just the beginning of what you can do with MDX in Next.js. Stay tuned for more posts!

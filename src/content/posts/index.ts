@@ -1,4 +1,16 @@
-import * as HelloWorld from './hello-world.mdx';
+import { lazy } from 'react';
+
+// Import MDX content
+const HelloWorldContent = lazy(() => import('./hello-world.mdx'));
+// Get metadata from the MDX file
+import { meta as helloWorldMeta } from './hello-world.mdx';
+
+// Create a post object with metadata and component
+const HelloWorld = {
+  meta: helloWorldMeta,
+  slug: 'hello-world',
+  component: HelloWorldContent
+};
 
 export type PostModule = {
   meta: {
@@ -8,12 +20,12 @@ export type PostModule = {
     tags?: string[];
     draft?: boolean;
   };
-  default: React.ComponentType;
   slug: string;
+  component: React.LazyExoticComponent<any>;
 };
 
 export const posts: PostModule[] = [
-  { ...(HelloWorld as any), slug: 'hello-world' },
+  HelloWorld,
   // add more posts here
 ].filter(p => process.env.NODE_ENV === 'production' ? !p.meta.draft : true)
  .sort((a,b) => (a.meta.date < b.meta.date ? 1 : -1));

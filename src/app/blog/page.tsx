@@ -1,7 +1,12 @@
 import { posts } from '@/content/posts';
 import Link from 'next/link';
-// import { Card } from '@/components/ui/card'; // Uncomment if you have a Card component
-// import { Badge } from '@/components/ui/badge'; // Uncomment if you have a Badge component
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+
+export const metadata = {
+  title: 'Blog',
+  description: 'Read my latest articles and thoughts',
+};
 
 export default function BlogPage() {
   return (
@@ -9,21 +14,24 @@ export default function BlogPage() {
       <h1 className="text-3xl font-bold mb-8">Blog</h1>
       <div className="space-y-6">
         {posts.map(post => (
-          <div key={post.slug} className="border rounded-lg p-6 bg-card shadow">
-            <Link href={`/blog/${post.slug}`} className="hover:underline">
-              <h2 className="text-2xl font-semibold mb-2">{post.meta.title}</h2>
-            </Link>
-            <div className="text-muted-foreground text-sm mb-2">{new Date(post.meta.date).toLocaleDateString()}</div>
+          <Card key={post.slug} className="overflow-hidden">
+            <CardHeader>
+              <Link href={`/blog/${post.slug}`} className="hover:underline">
+                <CardTitle>{post.meta.title}</CardTitle>
+              </Link>
+              <div className="text-muted-foreground text-sm">{new Date(post.meta.date).toLocaleDateString()}</div>
+            </CardHeader>
             {post.meta.description && (
-              <p className="mb-2 text-base text-muted-foreground">{post.meta.description}</p>
+              <CardContent>
+                <CardDescription>{post.meta.description}</CardDescription>
+              </CardContent>
             )}
-            <div className="flex flex-wrap gap-2">
+            <CardFooter className="flex flex-wrap gap-2">
               {post.meta.tags?.map(tag => (
-                <span key={tag} className="inline-block bg-muted px-2 py-1 rounded text-xs font-mono">#{tag}</span>
-                // <Badge key={tag} variant="secondary">{tag}</Badge>
+                <Badge key={tag} variant="secondary">{tag}</Badge>
               ))}
-            </div>
-          </div>
+            </CardFooter>
+          </Card>
         ))}
       </div>
     </div>
