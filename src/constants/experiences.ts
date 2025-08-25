@@ -9,7 +9,7 @@ export const experiences: {
   {
     company: "Logie Inc",
     role: "Backend Engineer",
-    periods: "Aug 2021 - Present",
+    periods: "Aug 2021 - Aug 2025",
     country: "United States of America (Remote)",
     description: `About omni channel platform for Amazon creators and brand owners, so that the creators can get additional income for their sold products at Amazon ecommerce.
     
